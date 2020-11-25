@@ -1,14 +1,5 @@
 {% extends 'base.html' %}
 
-{{ TRIAL_POSTS }}
-
-{% block sidebar %}
-        <ul>
-            <li><a href="/">Главная</a></li>
-        </ul>
-{% endblock %}
-
-
 {% block content %}
 {% for pst in post_list %}
     <h2>{{ pst.title }}</h2>
@@ -16,4 +7,6 @@
     <p>posted on: {{ pst.pub_date }}</p>
     
 {% endfor %}
-{% endblock %} 
+
+
+{% endblock %}
