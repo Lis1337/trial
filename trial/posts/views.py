@@ -27,13 +27,13 @@ def new_post(request):
     return render(request, 'new_post.html', {'form': form})
 
 
-def user_profile(request, username):
-    user_profile = get_object_or_404(User, username=username)
-    post = Post.objects.filter(author=user_profile)
-    post_list = Post.objects.filter(author=user_profile).order_by('-pub_date').all()
+def user_blog(request, username):
+    user_blog = get_object_or_404(User, username=username)
+    #post = Post.objects.filter(author=user_profile)
+    post_list = Post.objects.filter(author=user_blog).order_by('-pub_date').all()
 
-    return render(request, 'user_profile.html', {
-        'user_profile': user_profile,
+    return render(request, 'user_blog.html', {
+        'user_blog': user_blog,
         'post_list': post_list
     })
 
