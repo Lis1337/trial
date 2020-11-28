@@ -3,8 +3,11 @@
 {% block content %}
 {% for pst in post_list %}
     <h2>{{ pst.title }}</h2>
-    <p>{{ pst.text }}</p>
-    <p>posted on: {{ pst.pub_date }}</p>
+    blog author: {{ pst.author }}
+    <br>
+    {{ pst.text }}
+    <br>
+    posted on: {{ pst.pub_date }}
     
 {% endfor %}
 

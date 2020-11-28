@@ -1,32 +1,28 @@
 {% extends 'base.html' %}
 
-{{ TRIAL_POSTS }}
-
 {% block sidebar %}
         <ul>
-            <li><a href="/">Главная</a></li>
+            <li><a href="current_user_feed">Подписки</a></li>
             {% if user.is_authenticated %}
             Пользователь: {{ user.username }}
-            {# <a href="{% url 'new_post' %}">Новая запись</a> #}
-            {# <a href="{% url 'password_change' %}">Изменить пароль</a> #}
-            {# <a href="{% url 'logout' %}">Выйти</a> #}
-            {% else %}
-            {# <a href="{% url 'login' %}">Войти</a> | #}
-            {# <a href="{% url 'signup' %}">Регистрация</a> #}
             {% endif %}
         </ul>
 {% endblock %}
 
 
 {% block content %}
-{% for pst in post_list %}
-    <h2>{{ pst.title }}</h2>
-    blog author: <a href="{% url 'user_blog' pst.author.username %}">{{ pst.author }}</a>
-    <a href="{% url 'follow' pst.author.username %}">follow</a> 
-    <br>
-    {{ pst.text }}
-    <br>
-    posted on: {{ pst.pub_date }}
-    
+    <h1><b>News feed</b></h1>
+    {% for pst in post_list %}
+        <h2>{{ pst.title }}</h2>
+        blog author: <b><a href="{% url 'user_blog' pst.author.username %}">{{ pst.author }}</b></a>
+
+        {% if pst.author.username != user.username %}
+        <a href="{% url 'follow' pst.author.username %}">follow</a>
+        {% endif %}
+        <br>
+        
+        {{ pst.text }}
+        <br>
+        posted on: {{ pst.pub_date }}
 {% endfor %}
 {% endblock %} 

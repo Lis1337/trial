@@ -3,11 +3,11 @@
 {% block title %} Post creation form{% endblock %}
 
 {% block content %}
-<h1>Create post</h1>
-<form method="post" enctype="multipart/form-data" class="post-form">
+    <h1>Create post</h1>
+    <form method="post" enctype="multipart/form-data" class="post-form">
   
-{% csrf_token %}
-{{ form.as_p }} 
-  <button type="submit">Сохранить</button>
-</form>
+      {% csrf_token %}
+      {{ form.as_p }} 
+      <button type="submit">Сохранить</button>
+    </form>
 {% endblock %}

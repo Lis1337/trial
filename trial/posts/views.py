@@ -38,20 +38,32 @@ def user_blog(request, username):
 
 @login_required
 def follow(request, username):
-    follower = get_object_or_404(User, username=username)
-    if follower != request.user:
-        Follow.objects.get_or_create(following=request.user, follower=follower)
-    return redirect('index', username=username)
+    following = get_object_or_404(User, username=username)
+    following_exists = Follow.objects.filter(
+        follower=request.user,
+        following=following
+    ).exists()
+
+    if request.user != following and not following_exists:
+        Follow.objects.create(following=following, follower=request.user)
+    return redirect('index')
 
 
 @login_required
 def unfollow(request, username):
-    follower = get_object_or_404(User, username=username)
-    following = Follow.objects.filter(follower=follower, following=request.user)
-    if following.exists():
-        following.delete()
-    return redirect('index', username=username)
+    following = get_object_or_404(User, username=username)
+    following_object = Follow.objects.filter(follower=request.user, following=following)
+    if following_object.exists():
+        following_object.delete()
+    return redirect('current_user_feed')
 
 
-def follow_list(request):
-    pass
+def current_user_feed(request):
+    user_feed = Post.objects.select_related(
+        'author'
+    ).filter(
+        author__following__in=Follow.objects.filter(follower=request.user)
+    ).order_by('-pub_date')
+    return render(request, 'current_user_feed.html', {
+        'user_feed': user_feed
+    })
