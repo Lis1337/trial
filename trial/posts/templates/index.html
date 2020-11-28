@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 
 {% block sidebar %}
-        <ul>
-            <li><a href="current_user_feed">Подписки</a></li>
-            {% if user.is_authenticated %}
-            Пользователь: {{ user.username }}
-            {% endif %}
-        </ul>
+    <h1>{% if user.is_authenticated %}
+    Пользователь: {{ user.username }}
+    <a href="current_user_feed">Подписки</a></h1>
+    {% else %}
+    you have to login
+    {% endif %}
 {% endblock %}
 
 
 {% block content %}
     <h1><b>News feed</b></h1>
     {% for pst in post_list %}
+        <button type="button" class="btn btn-light">Light
         <h2>{{ pst.title }}</h2>
         blog author: <b><a href="{% url 'user_blog' pst.author.username %}">{{ pst.author }}</b></a>
 
@@ -24,5 +25,6 @@
         {{ pst.text }}
         <br>
         posted on: {{ pst.pub_date }}
+        </button>
 {% endfor %}
 {% endblock %} 

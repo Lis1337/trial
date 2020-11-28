@@ -1,24 +1,19 @@
 {% extends 'base.html' %}
 
 {% block sidebar %}
-        <ul>
-            <li><a href="/">Главная</a></li>
-            {% if user.is_authenticated %}
-            Пользователь: {{ user.username }}
-            {# <a href="{% url 'new_post' %}">Новая запись</a> #}
-            {# <a href="{% url 'password_change' %}">Изменить пароль</a> #}
-            {# <a href="{% url 'logout' %}">Выйти</a> #}
-            {% else %}
-            {# <a href="{% url 'login' %}">Войти</a> | #}
-            {# <a href="{% url 'signup' %}">Регистрация</a> #}
-            {% endif %}
-        </ul>
+    <h1>{% if user.is_authenticated %}
+    Пользователь: {{ user.username }}
+    <a href="/">Главная</a></h1>
+    {% else %}
+    you have to login
+    {% endif %}
 {% endblock %}
 
 
 {% block content %}
     <h1><b>{{ user.username }}'s feed</b></h1>
     {% for pst in user_feed %}
+    <button type="button" class="btn btn-light">Light
         <h2>{{ pst.title }}</h2>
         blog author: <b><a href="{% url 'user_blog' pst.author.username %}">{{ pst.author }}</b></a>
         <a href="{% url 'unfollow' pst.author.username %}">unfollow</a>
@@ -26,5 +21,7 @@
         {{ pst.text }}
         <br>
         posted on: {{ pst.pub_date }}
+        </button>
     {% endfor %}
 {% endblock %}
+<a href="/">Главная</a>
