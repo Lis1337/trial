@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block sidebar %}
-    <h1>{% if user.is_authenticated %}
+    <h1><a href="current_user_feed">Подписки</a>
+    <br>
+    {% if user.is_authenticated %}
     Пользователь: {{ user.username }}
-    <a href="current_user_feed">Подписки</a></h1>
+    <a href='/new_post'>Создать запись </a>
+    </h1>
     {% else %}
     you have to login
     {% endif %}
@@ -13,7 +16,6 @@
 {% block content %}
     <h1><b>News feed</b></h1>
     {% for pst in post_list %}
-        <button type="button" class="btn btn-light">Light
         <h2>{{ pst.title }}</h2>
         blog author: <b><a href="{% url 'user_blog' pst.author.username %}">{{ pst.author }}</b></a>
 
@@ -21,10 +23,7 @@
         <a href="{% url 'follow' pst.author.username %}">follow</a>
         {% endif %}
         <br>
-        
         {{ pst.text }}
-        <br>
-        posted on: {{ pst.pub_date }}
-        </button>
+        <div class="dropdown-divider"></div>
 {% endfor %}
 {% endblock %} 

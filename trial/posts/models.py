@@ -12,6 +12,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     text = models.TextField(max_length=500)
     pub_date = models.DateTimeField(auto_now_add=True)
+    read_status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.text

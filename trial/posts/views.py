@@ -16,7 +16,7 @@ def new_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST or None)
         if form.is_valid():
-            Post.models.create(
+            Post.objects.create(
                 author=request.user,
                 title=form.cleaned_data['title'],
                 text=form.cleaned_data['text']
@@ -55,6 +55,7 @@ def unfollow(request, username):
     following_object = Follow.objects.filter(follower=request.user, following=following)
     if following_object.exists():
         following_object.delete()
+        Post.objects.filter(author=following).update(read_status=False)
     return redirect('current_user_feed')
 
 
@@ -64,6 +65,12 @@ def current_user_feed(request):
     ).filter(
         author__following__in=Follow.objects.filter(follower=request.user)
     ).order_by('-pub_date')
+    
     return render(request, 'current_user_feed.html', {
         'user_feed': user_feed
     })
+
+
+def mark_as_read(request, post_id):
+    read_mark = Post.objects.filter(id=post_id).update(read_status=True)
+    return redirect('current_user_feed')
