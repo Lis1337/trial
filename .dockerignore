@@ -6,7 +6,4 @@ migrations/
 sent_emails/
 
 .vscode
-.env
-yes
-yes.pub
 
