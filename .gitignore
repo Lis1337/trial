@@ -3,6 +3,7 @@ env/
 venv/
 static/
 migrations/
+sent_emails/
 
 .vscode
 

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 from .models import Post, User, Follow
 from .forms import PostForm
@@ -20,6 +21,12 @@ def new_post(request):
                 author=request.user,
                 title=form.cleaned_data['title'],
                 text=form.cleaned_data['text']
+            )
+            send_mail(
+                f'new post from: {request.user.username}',
+                'only on trial',
+                'trial@example.com',
+                ['to@example.com'],
             )
             return redirect('index')
         return render(request, 'new_post.html', {'form': form})
